@@ -21,7 +21,7 @@ class TestMOOConstructor:
 
 
 @pytest.fixture()
-def fixed_moo(mocker):
+def fixed_moo():
     moo = MOO()
     moo.target = [1, 2, 3]
 
