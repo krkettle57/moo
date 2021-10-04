@@ -1,5 +1,5 @@
 import pytest
-from moo import MOO
+from model import MOO
 
 
 class TestMOO:
