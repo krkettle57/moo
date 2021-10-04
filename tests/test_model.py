@@ -18,3 +18,17 @@ class TestMOOConstructor:
     def test_target_length10(self):
         with pytest.raises(ValueError):
             MOO(target_length=10)
+
+
+@pytest.fixture()
+def fixed_moo(mocker):
+    moo = MOO()
+    moo.target = [1, 2, 3]
+
+    yield moo
+
+
+class TestMOOCall:
+    def test_call_correct(self, fixed_moo) -> None:
+        called_result = fixed_moo.call([1, 2, 3])
+        assert called_result.num_eat == 3
