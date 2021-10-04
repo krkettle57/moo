@@ -30,7 +30,7 @@ class MOO:
             raise ValueError(f"Length of 'called' must be {self.target_length}")
 
         num_eat = sum([td == cd for td, cd in zip(self.target, called)])
-        num_bite = sum(set(self.target) & set(called)) - num_eat
+        num_bite = len(set(self.target) & set(called)) - num_eat
 
         result = CallResultSet(called, num_eat, num_bite)
         self.called_results.append(result)
