@@ -17,14 +17,16 @@ class CallResultSet:
 @dataclass
 class MOO:
     target_length: TargetLengthOption
-    called_results: List[CallResultSet] = field(default_factory=list, init=False)
-    target: List[int] = field(init=False)
-    onPlay: bool = field(default=True, init=False)
+    target: List[int] = field(default_factory=list)
+    called_results: List[CallResultSet] = field(default_factory=list)
+    onPlay: bool = field(default=True)
 
     def __post_init__(self) -> None:
         if self.target_length not in get_args(TargetLengthOption):
             raise ValueError(f"'target_length' should be in {get_args(TargetLengthOption)}.")
-        self.target = [randint(0, 9) for _ in range(self.target_length)]
+
+        if len(self.target) == 0:
+            self.target = [randint(0, 9) for _ in range(self.target_length)]
 
     def call(self, called: List[int]) -> CallResultSet:
         if len(called) != self.target_length:

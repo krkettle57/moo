@@ -25,7 +25,7 @@ class MOOJSONStore(MOOFileStore):
 
     def load(self) -> MOO:
         with open(self.filename) as f:
-            return json.load(f)
+            return MOO(**json.load(f))
 
     def save(self, moo: MOO) -> None:
         with open(self.filename, "w") as f:
