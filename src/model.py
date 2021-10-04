@@ -19,6 +19,7 @@ class MOO:
     target_length: TargetLengthOption
     called_results: List[CallResultSet] = field(default_factory=list, init=False)
     target: List[int] = field(init=False)
+    onPlay: bool = field(default=True, init=False)
 
     def __post_init__(self) -> None:
         if self.target_length not in get_args(TargetLengthOption):
@@ -36,3 +37,6 @@ class MOO:
         self.called_results.append(result)
 
         return result
+
+    def finish(self) -> None:
+        self.onPlay = False
