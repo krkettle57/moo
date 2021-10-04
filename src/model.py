@@ -16,8 +16,8 @@ class CallResultSet:
 
 @dataclass
 class MOO:
-    target_length: TargetLengthOption = 3
-    called_results: List[CallResultSet] = field(default_factory=list)
+    target_length: TargetLengthOption
+    called_results: List[CallResultSet] = field(default_factory=list, init=False)
     target: List[int] = field(init=False)
 
     def __post_init__(self) -> None:

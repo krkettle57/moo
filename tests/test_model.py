@@ -3,14 +3,14 @@ from model import MOO
 
 
 class TestMOOConstructor:
-    def test_target_default(self):
-        moo = MOO()
+    def test_target_length3(self):
+        moo = MOO(3)
         assert len(moo.target) == 3
         for num in moo.target:
             assert num in [i for i in range(10)]
 
     def test_target_length4(self):
-        moo = MOO(target_length=4)
+        moo = MOO(4)
         assert len(moo.target) == 4
         for num in moo.target:
             assert num in [i for i in range(10)]
@@ -22,7 +22,7 @@ class TestMOOConstructor:
 
 @pytest.fixture()
 def fixed_moo():
-    moo = MOO()
+    moo = MOO(3)
     moo.target = [1, 2, 3]
 
     yield moo
