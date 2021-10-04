@@ -31,5 +31,5 @@ class MOOJSONStore(MOOFileStore):
         with open(self.filename, "w") as f:
             json.dump(asdict(moo), f, ensure_ascii=self.ensure_ascii, indent=self.indent)
 
-    def exist(self) -> bool:
+    def exists(self) -> bool:
         return os.path.exists(self.filename)
