@@ -18,6 +18,9 @@
     "--disallow-untyped-defs",
     "--ignore-missing-imports",
   ],
+  "python.linting.ignorePatterns": [
+    "tests/**/*.py"
+  ],
   "python.linting.lintOnSave": true,
   "python.formatting.provider": "black",
   "python.formatting.blackArgs": [
