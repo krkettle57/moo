@@ -1,0 +1,13 @@
+
+{
+  "recommendations": [
+    "mechatroner.rainbow-csv",
+    "nickdemayo.vscode-json-editor",
+    "coenraads.bracket-pair-colorizer",
+    "pkief.material-icon-theme",
+    "editorconfig.editorconfig",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "njpwerner.autodocstring"
+  ]
+}
