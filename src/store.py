@@ -4,9 +4,6 @@ from dataclasses import asdict, dataclass
 from typing import Protocol
 
 from model import MOO
-from utils import create_logger
-
-logger = create_logger(__name__)
 
 
 class MOOFileStore(Protocol):
@@ -33,7 +30,6 @@ class MOOJSONStore(MOOFileStore):
     def save(self, moo: MOO) -> None:
         with open(self.filename, "w") as f:
             json.dump(asdict(moo), f, ensure_ascii=self.ensure_ascii, indent=self.indent)
-            logger.info(f"Create save directory: {self.filename}")
 
     def exist(self) -> bool:
         return os.path.exists(self.filename)
