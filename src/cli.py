@@ -4,8 +4,6 @@ from typing import List, Union
 from model import MOO, CallResultSet, Target, TargetLengthOption
 from store import MOOFileStore, MOOJSONStore
 
-NO_EXIST_DOING_MOO = "進行中のMOOが存在しません。 startコマンドで開始して下さい。"
-
 
 class MOOCLIViewer:
     def start_verify(self, yes: str = "y", no: str = "n") -> str:
@@ -30,6 +28,12 @@ class MOOCLIViewer:
         hist = [self.called_result(result) for result in called_results]
         return "\n".join(["[Called History]"] + hist)
 
+    def no_moo_on_play(self) -> str:
+        return "進行中のMOOが存在しません。 startコマンドで開始して下さい。"
+
+    def no_moo_started(self) -> str:
+        return "MOOのプレイ記録が存在しません。startコマンドで開始して下さい。"
+
 
 @dataclass
 class MOOCLIHandler:
@@ -49,7 +53,7 @@ class MOOCLIHandler:
 
     def giveup(self) -> str:
         if not self._is_on_play():
-            return NO_EXIST_DOING_MOO
+            return self.viewer.no_moo_on_play()
 
         moo = self.store.load()
         moo.finish()
@@ -58,7 +62,7 @@ class MOOCLIHandler:
 
     def turn(self, called: Union[str, int]) -> str:
         if not self._is_on_play():
-            return NO_EXIST_DOING_MOO
+            return self.viewer.no_moo_on_play()
 
         moo = self.store.load()
         result = moo.call(str(called))
@@ -70,11 +74,14 @@ class MOOCLIHandler:
         return self.viewer.called_result(result)
 
     def history(self) -> str:
-        if not self._is_on_play():
-            return NO_EXIST_DOING_MOO
+        if not self._is_started():
+            return self.viewer.no_moo_started()
 
         moo = self.store.load()
         return self.viewer.history(moo.called_results)
 
+    def _is_started(self) -> bool:
+        return self.store.exists()
+
     def _is_on_play(self) -> bool:
-        return self.store.exists() and self.store.load().on_play
+        return self._is_started() and self.store.load().on_play
