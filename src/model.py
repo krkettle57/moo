@@ -28,7 +28,7 @@ class Target:
 
     @property
     def length(self) -> int:
-        return len(self.target)
+        return len(self.as_list())
 
     def as_list(self) -> List[str]:
         return list(self.target)
@@ -40,7 +40,7 @@ class Called:
     target: Target
 
     def __post_init__(self) -> None:
-        if len(self.called) != self.target.length:
+        if len(self.as_list()) != self.target.length:
             raise ValueError(f"Length of 'called' must be {self.target.length}")
 
         if not self.called.isdigit():
