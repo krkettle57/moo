@@ -27,7 +27,12 @@ class MOOJSONStore(MOOFileStore):
         with open(self.filename) as f:
             data = json.load(f)
         target = Target(**data["target"])
-        called_results = [CallResultSet(Called(**result[1]), result[1], result[2]) for result in data["called_results"]]
+        called_results = []
+        for result in data["called_results"]:
+            called_data = result["called"]
+            called = Called(called=called_data["called"], target=Target(**called_data["target"]))
+            called_result = CallResultSet(called, result["num_eat"], result["num_bite"])
+            called_results.append(called_result)
         on_play = data["on_play"]
         return MOO(target=target, called_results=called_results, on_play=on_play)
 
