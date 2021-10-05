@@ -4,9 +4,12 @@ from dataclasses import dataclass, field
 from random import randint
 from typing import List, Literal, Tuple, get_args
 
+from dataclasses_json import dataclass_json
+
 TargetLengthOption = Literal[3, 4, 5]
 
 
+@dataclass_json
 @dataclass
 class CallResultSet:
     called: Called
@@ -14,6 +17,7 @@ class CallResultSet:
     num_bite: int
 
 
+@dataclass_json
 @dataclass
 class Target:
     target: str
@@ -34,6 +38,7 @@ class Target:
         return list(self.target)
 
 
+@dataclass_json
 @dataclass
 class Called:
     called: str
@@ -59,6 +64,7 @@ class Called:
         return CallResultSet(self, num_eat, num_bite)
 
 
+@dataclass_json
 @dataclass
 class MOO:
     target: Target
