@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Union
 
 from model import MOO, TargetLengthOption
 from store import MOOFileStore, MOOJSONStore
@@ -10,6 +11,10 @@ class CLIMessage(Enum):
     CANCEL_NEW_MOO = "新しいMOOの開始を中止しました。"
     START_MOO = "MOOを開始します！"
     GIVEUP_MOO = "MOOを終了します。ターゲットは{target}でした。"
+    INVALID_DIGIT_CALL = "数字のみを用いてコールして下さい。"
+    INVALID_LENGTH_CALL = "{target_length}桁でコールして下さい。"
+    CLEAR_MOO = "クリア！ターゲット: {target}, コール数: {num_call}"
+    RESULT_CALL = "コール: {called}, {num_eat}-EAT, {num_bite}-BITE"
 
 
 @dataclass
@@ -33,11 +38,27 @@ class MOOCLIHandler:
         target = "".join([str(i) for i in moo.target])
         return CLIMessage.GIVEUP_MOO.value.format(target=target)
 
-    def turn(self, called: str) -> str:
-        # 管理ファイルからMOOをload
-        # callを実行し、終了判定
-        # 結果を返す
-        return "[DEV]: turn"
+    def turn(self, called: Union[str, int]) -> str:
+        moo = self.store.load()
+
+        # validate called
+        called = str(called)
+        if called.isdigit() is None:
+            return CLIMessage.INVALID_DIGIT_CALL.value
+
+        if len(called) != moo.target_length:
+            return CLIMessage.INVALID_LENGTH_CALL.value
+
+        # call
+        result = moo.call([int(s) for s in list(called)])
+        self.store.save(moo)
+
+        # validate result
+        if result.num_eat == moo.target_length:
+            moo.finish()
+            return CLIMessage.CLEAR_MOO.value.format(target=moo.target, num_call=len(moo.called_results))
+
+        return CLIMessage.RESULT_CALL.value.format(called=called, num_eat=result.num_eat, num_bite=result.num_bite)
 
     def history(self) -> str:
         # 管理ファイルの有無を確認する
