@@ -20,7 +20,7 @@ class MOOCLIViewer:
         return f"クリア！ターゲット: {moo.target.target}, コール数: {len(moo.called_results)}"
 
     def called_result(self, result: CallResultSet) -> str:
-        return f"コール: {result.called.called}, {result.num_eat}-EAT, {result.num_bite}-BITE"
+        return f"Call: {result.called.called}, {result.num_eat}-EAT, {result.num_bite}-BITE"
 
     def history(self, called_results: List[CallResultSet]) -> str:
         hist = [self.called_result(result) for result in called_results]
