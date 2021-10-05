@@ -1,6 +1,6 @@
 from typing import List
 
-from model import MOO, CallResultSet, Target
+from models.moo import MOO, CallResultSet, Target
 
 
 class MOOCLIViewer:

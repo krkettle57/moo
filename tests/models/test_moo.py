@@ -1,5 +1,6 @@
 import pytest
-from model import MOO, Called, CallResultSet, Target
+
+from models.moo import MOO, Called, CallResultSet, Target
 
 
 @pytest.fixture()

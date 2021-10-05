@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Union
 
-from model import MOO, Target, TargetLengthOption
-from store import MOOFileStore, MOOJSONStore
-from viewer import MOOCLIViewer
+from models.moo import MOO, Target, TargetLengthOption
+from stores.fs import MOOFileStore, MOOJSONStore
+
+from cli.viewer import MOOCLIViewer
 
 
 @dataclass
