@@ -22,16 +22,7 @@ class MOOCLIHandler:
         self.store.save(moo)
         return self.viewer.start_done()
 
-    def giveup(self) -> str:
-        if not self._is_on_play():
-            return self.viewer.no_moo_on_play()
-
-        moo = self.store.load()
-        moo.finish()
-        self.store.save(moo)
-        return self.viewer.giveup(moo.target)
-
-    def turn(self, called: Union[str, int]) -> str:
+    def call(self, called: Union[str, int]) -> str:
         if not self._is_on_play():
             return self.viewer.no_moo_on_play()
 
@@ -43,6 +34,15 @@ class MOOCLIHandler:
             return self.viewer.clear(moo)
 
         return self.viewer.called_result(result)
+
+    def giveup(self) -> str:
+        if not self._is_on_play():
+            return self.viewer.no_moo_on_play()
+
+        moo = self.store.load()
+        moo.finish()
+        self.store.save(moo)
+        return self.viewer.giveup(moo.target)
 
     def history(self) -> str:
         if not self._is_started():
