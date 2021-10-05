@@ -3,7 +3,7 @@ import os
 from dataclasses import asdict, dataclass
 from typing import Protocol
 
-from model import MOO
+from model import MOO, Called, CallResultSet, Target
 
 
 class MOOFileStore(Protocol):
@@ -25,7 +25,11 @@ class MOOJSONStore(MOOFileStore):
 
     def load(self) -> MOO:
         with open(self.filename) as f:
-            return MOO(**json.load(f))
+            data = json.load(f)
+        target = Target(**data["target"])
+        called_results = [CallResultSet(Called(**result[1]), result[1], result[2]) for result in data["called_results"]]
+        on_play = data["on_play"]
+        return MOO(target=target, called_results=called_results, on_play=on_play)
 
     def save(self, moo: MOO) -> None:
         with open(self.filename, "w") as f:
