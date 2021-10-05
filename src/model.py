@@ -9,7 +9,7 @@ TargetLengthOption = Literal[3, 4, 5]
 
 @dataclass
 class CallResultSet:
-    called: List[int]
+    called: str
     num_eat: int
     num_bite: int
 
@@ -35,7 +35,7 @@ class MOO:
         num_eat = sum([td == cd for td, cd in zip(self.target, called)])
         num_bite = len(set(self.target) & set(called)) - num_eat
 
-        result = CallResultSet(called, num_eat, num_bite)
+        result = CallResultSet("".join([str(i) for i in called]), num_eat, num_bite)
         self.called_results.append(result)
 
         return result
