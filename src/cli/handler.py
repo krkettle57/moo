@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Union
 
+from exceptions import InvalidLengthInputError, InvalidValueInputError
 from models.moo import MOO, Target, TargetLengthOption
 from stores.fs import MOOFileStore, MOOJSONStore
 
@@ -27,12 +28,19 @@ class MOOCLIHandler:
         str
             出力メッセージ
         """
+        # confirm restart moo
         if self._is_on_play():
             yn = input(self.__viewer.start_verify())
             if yn.lower().strip() != "y":
-                return self.__viewer.start_done()
+                return self.__viewer.start_cancel()
 
-        target = Target.generate(target_length)
+        # validate target_length
+        try:
+            target = Target.generate(target_length)
+        except InvalidLengthInputError:
+            return self.__viewer.invalid_target_length()
+
+        # start moo
         moo = MOO(target)
         self.__store.save(moo)
         return self.__viewer.start_done()
@@ -50,13 +58,23 @@ class MOOCLIHandler:
         str
             出力メッセージ
         """
+
+        # validate on_play
         if not self._is_on_play():
             return self.__viewer.no_moo_on_play()
 
         moo = self.__store.load()
-        result = moo.call(str(called))
+
+        try:
+            result = moo.call(str(called))
+        except InvalidLengthInputError:
+            return self.__viewer.invalid_call_length(moo.target.length)
+        except InvalidValueInputError:
+            return self.__viewer.invalid_call_value()
+
         self.__store.save(moo)
 
+        # validate clear
         if result.num_eat == moo.target.length:
             return self.__viewer.clear(moo)
 

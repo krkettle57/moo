@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, get_args
 
-from models.moo import MOO, CallResultSet, Target
+from models.moo import MOO, CallResultSet, Target, TargetLengthOption
 
 
 class MOOCLIViewer:
@@ -31,3 +31,13 @@ class MOOCLIViewer:
 
     def no_moo_started(self) -> str:
         return "MOOのプレイ記録が存在しません。startコマンドで開始して下さい。"
+
+    def invalid_target_length(self) -> str:
+        options = ", ".join([str(i) for i in get_args(TargetLengthOption)])
+        return f"ターゲットの桁数は{options}のいずれかで入力して下さい。"
+
+    def invalid_call_length(self, target_length: int) -> str:
+        return f"コールする値は{target_length}桁で入力して下さい。"
+
+    def invalid_call_value(self) -> str:
+        return "コールする値の各桁は0~9のいずれかで入力して下さい。"

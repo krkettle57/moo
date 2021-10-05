@@ -5,6 +5,7 @@ from random import randint
 from typing import List, Literal, Tuple, get_args
 
 from dataclasses_json import dataclass_json
+from exceptions import InvalidLengthInputError, InvalidValueInputError
 
 TargetLengthOption = Literal[3, 4, 5]
 
@@ -25,7 +26,7 @@ class Target:
     @classmethod
     def generate(self, length: TargetLengthOption) -> Target:
         if length not in get_args(TargetLengthOption):
-            raise ValueError(f"'length' should be in {get_args(TargetLengthOption)}.")
+            raise InvalidLengthInputError(f"'length' should be in {get_args(TargetLengthOption)}.")
 
         target = "".join([str(randint(0, 9)) for _ in range(length)])
         return Target(target)
@@ -46,10 +47,10 @@ class Called:
 
     def __post_init__(self) -> None:
         if len(self.as_list()) != self.target.length:
-            raise ValueError(f"Length of 'called' must be {self.target.length}")
+            raise InvalidLengthInputError(f"Length of 'called' must be {self.target.length}")
 
         if not self.called.isdigit():
-            raise ValueError("'called' must contain only number")
+            raise InvalidValueInputError("'called' must contain only number")
 
     def as_list(self) -> List[str]:
         return list(self.called)
