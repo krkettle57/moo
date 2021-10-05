@@ -24,6 +24,12 @@ class TestTarget:
         with pytest.raises(ValueError):
             Target.generate(10)
 
+    def test_length(self, fixed_target):
+        assert fixed_target.length == 3
+
+    def test_as_list(self, fixed_target):
+        assert fixed_target.as_list() == ["1", "2", "3"]
+
 
 class TestCalled:
     def test_3eat(self, fixed_target) -> None:
