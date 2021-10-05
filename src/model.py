@@ -43,6 +43,9 @@ class Called:
         if len(self.called) != self.target.length:
             raise ValueError(f"Length of 'called' must be {self.target.length}")
 
+        if not self.called.isdigit():
+            raise ValueError("'called' must contain only number")
+
     def as_list(self) -> List[str]:
         return list(self.called)
 
