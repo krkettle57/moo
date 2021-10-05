@@ -76,6 +76,9 @@ class MOO:
         result = called.get_result_set()
         self.called_results.append(result)
 
+        if result.num_eat == self.target.length:
+            self.finish()
+
         return result
 
     def finish(self) -> None:

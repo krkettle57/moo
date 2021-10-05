@@ -65,8 +65,6 @@ class MOOCLIHandler:
         self.store.save(moo)
 
         if result.num_eat == moo.target.length:
-            moo.finish()
-            self.store.save(moo)
             return self.viewer.clear(moo)
 
         return self.viewer.called_result(result)
