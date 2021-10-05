@@ -56,7 +56,9 @@ class MOOCLIHandler:
         # validate result
         if result.num_eat == moo.target_length:
             moo.finish()
-            return CLIMessage.CLEAR_MOO.value.format(target=moo.target, num_call=len(moo.called_results))
+            return CLIMessage.CLEAR_MOO.value.format(
+                target="".join([str(i) for i in moo.target]), num_call=len(moo.called_results)
+            )
 
         return CLIMessage.RESULT_CALL.value.format(called=called, num_eat=result.num_eat, num_bite=result.num_bite)
 
