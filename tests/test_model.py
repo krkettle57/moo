@@ -1,5 +1,5 @@
 import pytest
-from model import Called, Target
+from model import Called, CallResultSet, Target
 
 
 @pytest.fixture()
@@ -32,47 +32,55 @@ class TestTarget:
 
 
 class TestCalled:
-    def test_3eat(self, fixed_target) -> None:
-        called_result = Called("123", fixed_target).get_result_set()
-        assert called_result.num_eat == 3
-        assert called_result.num_bite == 0
+    def test_3eat(self, fixed_target):
+        num_eat, num_bite = Called("123", fixed_target).get_eat_bite_num()
+        assert num_eat == 3
+        assert num_bite == 0
 
-    def test_2eat0bite(self, fixed_target) -> None:
-        called_result = Called("124", fixed_target).get_result_set()
-        assert called_result.num_eat == 2
-        assert called_result.num_bite == 0
+    def test_2eat0bite(self, fixed_target):
+        num_eat, num_bite = Called("124", fixed_target).get_eat_bite_num()
+        assert num_eat == 2
+        assert num_bite == 0
 
-    def test_1eat0bite(self, fixed_target) -> None:
-        called_result = Called("145", fixed_target).get_result_set()
-        assert called_result.num_eat == 1
-        assert called_result.num_bite == 0
+    def test_1eat0bite(self, fixed_target):
+        num_eat, num_bite = Called("145", fixed_target).get_eat_bite_num()
+        assert num_eat == 1
+        assert num_bite == 0
 
-    def test_1eat1bite(self, fixed_target) -> None:
-        called_result = Called("142", fixed_target).get_result_set()
-        assert called_result.num_eat == 1
-        assert called_result.num_bite == 1
+    def test_1eat1bite(self, fixed_target):
+        num_eat, num_bite = Called("142", fixed_target).get_eat_bite_num()
+        assert num_eat == 1
+        assert num_bite == 1
 
-    def test_1eat2bite(self, fixed_target) -> None:
-        called_result = Called("132", fixed_target).get_result_set()
-        assert called_result.num_eat == 1
-        assert called_result.num_bite == 2
+    def test_1eat2bite(self, fixed_target):
+        num_eat, num_bite = Called("132", fixed_target).get_eat_bite_num()
+        assert num_eat == 1
+        assert num_bite == 2
 
-    def test_0eat0bite(self, fixed_target) -> None:
-        called_result = Called("456", fixed_target).get_result_set()
-        assert called_result.num_eat == 0
-        assert called_result.num_bite == 0
+    def test_0eat0bite(self, fixed_target):
+        num_eat, num_bite = Called("456", fixed_target).get_eat_bite_num()
+        assert num_eat == 0
+        assert num_bite == 0
 
-    def test_0eat1bite(self, fixed_target) -> None:
-        called_result = Called("451", fixed_target).get_result_set()
-        assert called_result.num_eat == 0
-        assert called_result.num_bite == 1
+    def test_0eat1bite(self, fixed_target):
+        num_eat, num_bite = Called("451", fixed_target).get_eat_bite_num()
+        assert num_eat == 0
+        assert num_bite == 1
 
-    def test_0eat2bite(self, fixed_target) -> None:
-        called_result = Called("351", fixed_target).get_result_set()
-        assert called_result.num_eat == 0
-        assert called_result.num_bite == 2
+    def test_0eat2bite(self, fixed_target):
+        num_eat, num_bite = Called("351", fixed_target).get_eat_bite_num()
+        assert num_eat == 0
+        assert num_bite == 2
 
-    def test_3bite(self, fixed_target) -> None:
-        called_result = Called("231", fixed_target).get_result_set()
-        assert called_result.num_eat == 0
-        assert called_result.num_bite == 3
+    def test_3bite(self, fixed_target):
+        num_eat, num_bite = Called("231", fixed_target).get_eat_bite_num()
+        assert num_eat == 0
+        assert num_bite == 3
+
+    def test_as_list(self, fixed_target):
+        called = Called("123", fixed_target)
+        assert called.as_list() == ["1", "2", "3"]
+
+    def test_get_result_set(self, fixed_target):
+        called = Called("123", fixed_target)
+        assert called.get_result_set() == CallResultSet(called, 3, 0)
