@@ -1,5 +1,5 @@
 import pytest
-from model import Called, CallResultSet, Target
+from model import MOO, Called, CallResultSet, Target
 
 
 @pytest.fixture()
@@ -84,3 +84,35 @@ class TestCalled:
     def test_get_result_set(self, fixed_target):
         called = Called("123", fixed_target)
         assert called.get_result_set() == CallResultSet(called, 3, 0)
+
+
+@pytest.fixture()
+def fixed_moo(fixed_target):
+    moo = MOO(fixed_target)
+
+    yield moo
+
+
+class TestMOO:
+    def test_call_correct(self, fixed_moo):
+        fixed_moo.call("123")
+        assert not fixed_moo.on_play
+        assert fixed_moo.called_results == [CallResultSet(Called("123", fixed_moo.target), 3, 0)]
+
+    def test_call_wrong(self, fixed_moo):
+        fixed_moo.call("456")
+        assert fixed_moo.on_play
+        assert fixed_moo.called_results == [CallResultSet(Called("456", fixed_moo.target), 0, 0)]
+
+    def test_call_wrong_and_correct(self, fixed_moo):
+        fixed_moo.call("456")
+        fixed_moo.call("123")
+        assert not fixed_moo.on_play
+        assert fixed_moo.called_results == [
+            CallResultSet(Called("456", fixed_moo.target), 0, 0),
+            CallResultSet(Called("123", fixed_moo.target), 3, 0),
+        ]
+
+    def test_finish(self, fixed_moo):
+        fixed_moo.finish()
+        assert not fixed_moo.on_play
