@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "moo-cli"
+name = "moo"
 version = "0.1.0"
 description = ""
 authors = ["krkettle57 <krkettle57@gmail.com>"]
