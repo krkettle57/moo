@@ -1,6 +1,6 @@
 import fire
 
-from cli.handler import MOOCLIHandler
+from moo.cli.handler import MOOCLIHandler
 
 
 def main() -> None:

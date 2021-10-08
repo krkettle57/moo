@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from typing import Protocol
 
-from models.moo import MOO
+from moo.models.moo import MOO
 
 
 class MOOFileStore(Protocol):

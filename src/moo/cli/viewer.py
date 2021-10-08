@@ -1,6 +1,6 @@
 from typing import List, get_args
 
-from models.moo import MOO, CallResultSet, Target, TargetLengthOption
+from moo.models.moo import MOO, CallResultSet, Target, TargetLengthOption
 
 
 class MOOCLIViewer:

@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Union
 
-from exceptions import InvalidLengthInputError, InvalidValueInputError
-from models.moo import MOO, Target, TargetLengthOption
-from stores.fs import MOOFileStore, MOOJSONStore
-
-from cli.viewer import MOOCLIViewer
+from moo.cli.viewer import MOOCLIViewer
+from moo.exceptions import InvalidLengthInputError, InvalidValueInputError
+from moo.models.moo import MOO, Target, TargetLengthOption
+from moo.stores.fs import MOOFileStore, MOOJSONStore
 
 
 @dataclass

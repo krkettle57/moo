@@ -5,7 +5,8 @@ from random import randint
 from typing import List, Literal, Tuple, get_args
 
 from dataclasses_json import dataclass_json
-from exceptions import InvalidLengthInputError, InvalidValueInputError
+
+from moo.exceptions import InvalidLengthInputError, InvalidValueInputError
 
 TargetLengthOption = Literal[3, 4, 5]
 
